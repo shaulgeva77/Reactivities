@@ -1,3 +1,5 @@
+using Application.Core;
+using Applications.Activities.Queries;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 using System.Threading.Tasks;
@@ -17,7 +19,12 @@ namespace MyReactivities
             // Add services to the container.
 
             builder.Services.AddControllers();
-
+            builder.Services.AddMediatR(cfg =>
+            {
+                cfg.RegisterServicesFromAssembly(typeof(GetActivityList).Assembly);
+                cfg.RegisterServicesFromAssembly(typeof(GetActivity).Assembly);
+            });
+            builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
